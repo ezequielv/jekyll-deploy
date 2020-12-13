@@ -103,7 +103,7 @@ def run_hooks(hook_id)
     #  2.2.10 :433 > Pathname.new('.gitignore').realpath.to_s
     #   => "/home/eze/data/apps/git/config/configs/std_01/gitignore"
     #  IDEA: put that functionality into a function deduplicate_paths_list!(l) -> l
-    dirs.map! { | p | File.absolute_path(p, basedir) }.keep_if { | p | FileTest.directory? p }
+    dirs = dirs.map { | p | File.absolute_path(p, basedir) }.keep_if { | p | FileTest.directory? p }
     # commit to global variable
     $hooks_dirs = dirs
   end
