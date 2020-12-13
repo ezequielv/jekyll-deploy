@@ -14,7 +14,7 @@ def system_or_fail(*cmd)
   end
 end
 
-basedir = Dir.pwd
+$basedir = Dir.pwd
 
 # TODO: implement with ideas from the following example (irb):
 #  2.2.10 :175 >   [ 'dir2/20-file_20', 'dir1/30-file_30', 'dir1/10-file_10', 'startwm.sh', './bin/ev_grepf', '.bash_history', '.shrc.d/05-debug-start.sh' ].sort { | a, b | (File.basename a) <=> (FFileTest.exists?(v) && FileTest.executable?(v) ; }
@@ -90,12 +90,12 @@ def run_hooks(hook_id)
   # TODO: transform input to make lists out of each "dictionary" element
   #  IDEA: format: 'key1' INPUT_KEYVAL_SEPARATOR 'val1_1' INPUT_LIST_SEPARATOR 'val1_2' INPUT_KEYVAL_END 'key2' INPUT_KEYVAL_SEPARATOR 'val2_1' (optional at the end: INPUT_KEYVAL_END)
   #   example with values above: 'key1:=val1_1,val1_2;key2:=val2_1'
-  # ref: FileUtils.cp(File.join(basedir, '/.git/config'), '.git/config')
+  # ref: FileUtils.cp(File.join($basedir, '/.git/config'), '.git/config')
   if $hooks_dirs.nil? then
     # TODO: merge from configuration
     dirs = HOOKS_SUBDIRS_DEFAULT.clone
-    # TODO: consider *both* basedir and sourcedir, and de-duplicate (as
-    # 'sourcedir' can ultimately be the same as 'basedir') (and do it after
+    # TODO: consider *both* $basedir and $sourcedir, and de-duplicate (as
+    # '$sourcedir' can ultimately be the same as '$basedir') (and do it after
     # expansion, as symlinks can result in duplicated paths -- TODO: find out
     # how to do that)
     #  2.2.10 :432 > Pathname.new('.gitignore').realpath
@@ -176,7 +176,7 @@ else
 end
 
 Dir.chdir(ENV['INPUT_SOURCE-DIR'])
-sourcedir = Dir.pwd
+$sourcedir = Dir.pwd
 
 run_hooks(:init_done)
 
@@ -215,7 +215,7 @@ Dir.chdir('_site')
 File.open('.nojekyll', 'w') { |f| f.puts 'Skip Jekyll' }
 
 system_or_fail('git', 'init', '.')
-FileUtils.cp(File.join(basedir, '/.git/config'), '.git/config')
+FileUtils.cp(File.join($basedir, '/.git/config'), '.git/config')
 system_or_fail('git', 'config', 'user.name', ENV['GITHUB_ACTOR'])
 system_or_fail('git', 'config', 'user.email', "#{ENV['GITHUB_ACTOR']}@users.noreply.github.com")
 system_or_fail('git', 'fetch', '--no-tags', '--no-recurse-submodules', 'origin', "+#{ENV['GITHUB_SHA']}:refs/remotes/origin/source")
@@ -228,9 +228,9 @@ else
   system_or_fail('git', 'reset', '--soft', "origin/source")
 end
 
-if File.exist?(File.join(sourcedir, 'CNAME')) && !File.exist?('CNAME')
+if File.exist?(File.join($sourcedir, 'CNAME')) && !File.exist?('CNAME')
   puts "Rendering github's CNAME file"
-  FileUtils.cp(File.join(sourcedir, 'CNAME'), 'CNAME')
+  FileUtils.cp(File.join($sourcedir, 'CNAME'), 'CNAME')
 end
 
 system_or_fail('git', 'add', '-A', '.')
