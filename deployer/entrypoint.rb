@@ -103,7 +103,7 @@ def run_hooks(hook_id)
     #  2.2.10 :433 > Pathname.new('.gitignore').realpath.to_s
     #   => "/home/eze/data/apps/git/config/configs/std_01/gitignore"
     #  IDEA: put that functionality into a function deduplicate_paths_list!(l) -> l
-    dirs = dirs.map { | p | File.absolute_path(p, basedir) }.keep_if { | p | FileTest.directory? p }
+    dirs = dirs.map { | p | File.absolute_path(p, $basedir) }.keep_if { | p | FileTest.directory? p }
     # commit to global variable
     $hooks_dirs = dirs
   end
@@ -138,9 +138,9 @@ def run_hooks(hook_id)
     'JEKYLLDEPLOY_HOOKS_ADJUST_LAST_MODIFIED' => [ ENV['INPUT_ADJUST-LAST-MODIFIED'], :envtype_bool ],
     'JEKYLLDEPLOY_HOOKS_BUILD_ONLY' => [ ENV['INPUT_BUILD-ONLY'], :envtype_bool ],
     'JEKYLLDEPLOY_HOOKS_TARGET_BRANCH' => [ ENV['INPUT_TARGET-BRANCH'], :envtype_string ],
-    'JEKYLLDEPLOY_HOOKS_BASE_DIR' => [ basedir, :envtype_string ],
+    'JEKYLLDEPLOY_HOOKS_BASE_DIR' => [ $basedir, :envtype_string ],
     #? 'JEKYLLDEPLOY_HOOKS_SOURCE_DIR' => [ ENV['INPUT_SOURCE-DIR'], :envtype_string ],
-    'JEKYLLDEPLOY_HOOKS_SOURCE_DIR' => [ sourcedir, :envtype_string ],
+    'JEKYLLDEPLOY_HOOKS_SOURCE_DIR' => [ $sourcedir, :envtype_string ],
   }
   puts " setting environment variable values:"
   #? prev: v1: env_hash.each_pair { | k, e |
