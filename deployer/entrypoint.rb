@@ -124,7 +124,7 @@ def run_hooks(hook_id)
   hooks = hook_dirs.map { | d | Dir.glob(File.join(d, '*')) }.flatten.keep_if { | p |
     FileTest.file?(p) && FileTest.executable?(p)
   }.sort_by! { | p | File.basename p }
-  puts " hook files to execute (in order):#{ hooks.empty? ? '(nothing)' : ''}"
+  puts " hook files to execute#{ hooks.empty? ? ': (none)' : ' (in order):'}"
 
   return false if hooks.empty?
 
