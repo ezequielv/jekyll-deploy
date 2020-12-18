@@ -140,6 +140,7 @@ def run_hooks(hook_id)
     'JEKYLLDEPLOY_HOOKS_ADJUST_LAST_MODIFIED' => [ ENV['INPUT_ADJUST-LAST-MODIFIED'], :envtype_bool ],
     'JEKYLLDEPLOY_HOOKS_BUILD_ONLY' => [ ENV['INPUT_BUILD-ONLY'], :envtype_bool ],
     'JEKYLLDEPLOY_HOOKS_TARGET_BRANCH' => [ ENV['INPUT_TARGET-BRANCH'], :envtype_string ],
+    'JEKYLLDEPLOY_HOOKS_GIT_REMOTE_NAME' => [ 'origin', :envtype_string ],
     'JEKYLLDEPLOY_HOOKS_BASE_DIR' => [ $basedir, :envtype_string ],
     #? 'JEKYLLDEPLOY_HOOKS_SOURCE_DIR' => [ ENV['INPUT_SOURCE-DIR'], :envtype_string ],
     'JEKYLLDEPLOY_HOOKS_SOURCE_DIR' => [ $sourcedir, :envtype_string ],
