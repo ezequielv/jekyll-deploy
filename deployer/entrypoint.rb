@@ -120,6 +120,8 @@ def run_hooks(hook_id)
   }.flatten.keep_if { | p | FileTest.directory? p }
   puts "hook: #{hook_id}; dirs: #{hook_dirs}"
 
+  return false if hook_dirs.empty?
+
   # get hook files, sorted by basename
   hooks = hook_dirs.map { | d | Dir.glob(File.join(d, '*')) }.flatten.keep_if { | p |
     FileTest.file?(p) && FileTest.executable?(p)
